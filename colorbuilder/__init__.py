@@ -177,13 +177,11 @@ def main():
 	import sys
 
 	parser = argparse.ArgumentParser(description='Process color definition file(s) and spew out a useful result.')
-	parser.add_argument('colordefs', nargs='+', type=argparse.FileType('r'))
 	parser.add_argument('template', nargs=1, type=argparse.FileType('r'))
+	parser.add_argument('colordefs', nargs='+', type=argparse.FileType('r'))
 	parser.add_argument('-o', dest='output', nargs='?', type=argparse.FileType('w'), default=sys.stdout)
 	
 	args = parser.parse_args()
-	print args
-
 	
 	color_parser = ColorsParser()
 	for colordef in args.colordefs:
