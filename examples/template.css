@@ -1,0 +1,6 @@
+div.beautiful {
+	monkey: $;
+	border: ${RED};
+	background: ${RED brightness(-20) brightness(+5)};
+}
+
