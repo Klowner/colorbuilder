@@ -144,7 +144,7 @@ class TemplateProcessor(object):
 			c = istream.read(1)
 			if mode == 0:
 				if c == '$':
-					if istream.read(1) == '{':
+					if istream.read(1) == '[':
 						obuff.seek(0)
 						results.append((mode, obuff.read()))
 						obuff.truncate(0)
@@ -156,7 +156,7 @@ class TemplateProcessor(object):
 				else:
 					obuff.write(c)
 			else:
-				if c == '}':
+				if c == ']':
 					obuff.seek(0)
 					results.append((mode, obuff.read().split(' ')))
 					obuff.truncate(0)
