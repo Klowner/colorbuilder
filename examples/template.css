@@ -1,5 +1,7 @@
 div.beautiful {
 	border: $[RED];
 	background: $[RED brightness(-20) brightness(+5)];
+	color: $[BLUE hue(+85)]; /* should end up red */
+	color: $[BLUE hue(-42.5) saturation(-5000)];
 }
 

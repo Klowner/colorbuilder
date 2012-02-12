@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import re
 import colorsys
+import decimal
 
 __version__ = '0.1'
 
@@ -18,11 +19,23 @@ class ColorFunc(object):
 		else:
 			raise ValueError
 
+	def hsv_op(self, color_elem, prop, clamp=False):
+		adjust = float( decimal.Decimal(self.func_args[0]) / decimal.Decimal('255') )
+		elements = list(colorsys.rgb_to_hls(*prop))
+		elements[color_elem] += adjust
+		if clamp:
+			elements[color_elem] = max(min(elements[color_elem], 1), 0)
+
+		return colorsys.hls_to_rgb(*elements)
+
+	def func_hue(self, prop):
+		return self.hsv_op(0, prop)
+
 	def func_brightness(self, prop):
-		adjust = int(self.func_args[0])/255.0
-		h,l,s = colorsys.rgb_to_hls(*prop)
-		l = min(max(l+adjust, 0.0), 1.0)	
-		return colorsys.hls_to_rgb(h,l,s)
+		return self.hsv_op(1, prop, clamp=True)
+
+	def func_saturation(self, prop):
+		return self.hsv_op(2, prop, clamp=True)
 
 
 class ColorName(object):
@@ -148,7 +161,6 @@ class TemplateProcessor(object):
 						obuff.seek(0)
 						results.append((mode, obuff.read()))
 						obuff.truncate(0)
-						#istream.seek(istream.tell()-2)
 						mode = 1
 					else:
 						istream.seek(istream.tell()-1)		
