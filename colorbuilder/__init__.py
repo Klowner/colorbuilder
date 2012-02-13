@@ -11,6 +11,9 @@ class ColorFunc(object):
 		self.func_name, self.func_args = self.MATCH.match(value).groups()
 		self.func_args = [x.strip() for x in filter(lambda x:x, self.func_args.split(','))]
 	
+	def __repr__(self):
+		return "%s[%s]" % ( self.__class__.__name__, self.func_name )
+
 	def resolve(self, parser, prop):
 		funcname = "func_%s" % self.func_name
 		func = getattr(self, funcname, None)
@@ -41,7 +44,10 @@ class ColorFunc(object):
 class ColorName(object):
 	MATCH = re.compile('^([A-Z0-9_]+)')
 	def __init__(self, value):
-		self.value = value
+		self.value = value.strip()
+
+	def __repr__(self):
+		return "%s[%s]" % ( self.__class__.__name__, self.value )
 
 	def resolve(self, parser, prop):
 		if prop:
